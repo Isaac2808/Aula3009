@@ -7,240 +7,210 @@
     <title>Ponto de Flor | Login</title>
 
     <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        body{
-            background:#fff8f8;
+        body {
+            background: #fff8f8;
         }
 
-        header{
-            background:#ffffff;
-            box-shadow:0 2px 10px rgba(0,0,0,.08);
-            padding:20px 40px;
-
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .logo-topo{
-            font-size:30px;
-            font-weight:bold;
-            color:#d48b9b;
+        .logo-topo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #d48b9b;
         }
 
-        .menu-topo{
-            display:flex;
-            gap:20px;
+        .menu-topo {
+            display: flex;
+            gap: 20px;
         }
 
-        .menu-topo a{
-            text-decoration:none;
-            color:#555;
-            font-weight:bold;
+        .menu-topo a {
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
         }
 
-        .menu-topo a:hover{
-            color:#d48b9b;
+        .menu-topo a:hover {
+            color: #d48b9b;
         }
 
-        .pagina{
-            display:flex;
-            min-height:calc(100vh - 140px);
+        .pagina {
+            display: flex;
+            min-height: calc(100vh - 140px);
         }
 
-        .lateral{
-            width:320px;
-
-            background:linear-gradient(
+        .lateral {
+            width: 320px;
+            background: linear-gradient(
                 135deg,
                 #d48b9b,
                 #e6a4b4
             );
-
-            color:white;
-            padding:40px;
+            color: white;
+            padding: 40px;
         }
 
-        .lateral h1{
-            font-size:40px;
-            margin-bottom:15px;
+        .lateral h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
         }
 
-        .lateral p{
-            line-height:1.7;
-            margin-bottom:30px;
+        .lateral p {
+            line-height: 1.7;
+            margin-bottom: 30px;
         }
 
-        .menu-lateral{
-            display:flex;
-            flex-direction:column;
-            gap:15px;
+        .menu-lateral {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .menu-btn{
-            background:white;
-            color:#d48b9b;
-
-            text-decoration:none;
-            padding:15px;
-            border-radius:12px;
-
-            text-align:center;
-            font-weight:bold;
+        .menu-btn {
+            background: white;
+            color: #d48b9b;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
         }
 
-        .menu-btn:hover{
-            background:#fff0f3;
+        .menu-btn:hover {
+            background: #fff0f3;
         }
 
-        .formulario{
-            flex:1;
-
-            display:flex;
-            justify-content:center;
-            align-items:center;
-
-            padding:40px;
+        .formulario {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
         }
 
-        .container{
-            width:100%;
-            max-width:500px;
-
-            background:white;
-
-            padding:40px;
-
-            border-radius:25px;
-
-            box-shadow:0 15px 35px rgba(0,0,0,.08);
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.08);
         }
 
-        .logo{
-            text-align:center;
-            margin-bottom:25px;
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        .icone{
-            font-size:60px;
-            margin-bottom:10px;
+        .icone {
+            font-size: 60px;
+            margin-bottom: 10px;
         }
 
-        .logo h2{
-            color:#d48b9b;
+        .logo h2 {
+            color: #d48b9b;
         }
 
-        .logo p{
-            color:#777;
-            margin-top:8px;
+        .logo p {
+            color: #777;
+            margin-top: 8px;
         }
 
-        .seguranca{
-            background:#fff2f5;
-            border-left:5px solid #d48b9b;
-            padding:15px;
-            border-radius:10px;
-            margin-bottom:20px;
-            color:#666;
+        .seguranca {
+            background: #fff2f5;
+            border-left: 5px solid #d48b9b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #666;
         }
 
-        .mensagem{
-            background:#ffe6ea;
-            color:#b45d6a;
-            padding:12px;
-            border-radius:10px;
-            margin-bottom:15px;
-            text-align:center;
+        .mensagem {
+            background: #ffe6ea;
+            color: #b45d6a;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        label{
-            display:block;
-            margin-bottom:5px;
-            font-weight:bold;
-            color:#666;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #666;
         }
 
-        input{
-            width:100%;
-            padding:14px;
-            margin-bottom:18px;
-            border:1px solid #ebc5ce;
-            border-radius:12px;
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 18px;
+            border: 1px solid #ebc5ce;
+            border-radius: 12px;
         }
 
-        input:focus{
-            outline:none;
-            border-color:#d48b9b;
+        input:focus {
+            outline: none;
+            border-color: #d48b9b;
         }
 
-        button{
-            width:100%;
-            padding:15px;
-            border:none;
-            border-radius:12px;
-            background:#d48b9b;
-            color:white;
-            font-size:16px;
-            font-weight:bold;
-            cursor:pointer;
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #d48b9b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        button:hover{
-            background:#c47f90;
+        button:hover {
+            background: #c47f90;
         }
 
-        .cadastro-link{
-            text-align:center;
-            margin-top:20px;
+        .cadastro-link {
+            text-align: center;
+            margin-top: 20px;
         }
 
-        .cadastro-link a{
-            color:#d48b9b;
-            text-decoration:none;
-            font-weight:bold;
+        .cadastro-link a {
+            color: #d48b9b;
+            font-weight: bold;
+            text-decoration: none;
         }
 
-        footer{
-            background:white;
-            padding:25px;
-            text-align:center;
-            border-top:1px solid #eee;
+        footer {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid #eee;
         }
 
-        footer h3{
-            color:#d48b9b;
-            margin-bottom:10px;
+        footer h3 {
+            color: #d48b9b;
+            margin-bottom: 10px;
         }
 
-        footer p{
-            color:#666;
+        footer p {
+            color: #666;
         }
-
-        @media(max-width:900px){
-
-            .pagina{
-                flex-direction:column;
-            }
-
-            .lateral{
-                width:100%;
-            }
-
-            header{
-                flex-direction:column;
-                gap:15px;
-            }
-        }
-
     </style>
-
 </head>
 
 <body>
@@ -252,9 +222,9 @@
     </div>
 
     <div class="menu-topo">
-        {% url 'home' %}Home</a>
-        {% url 'cadastro' %}Cadastro</a>
-        {% url 'login' %}Login</a>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'cadastro' %}">Cadastro</a>
+        <a href="{% url 'login' %}">Login</a>
     </div>
 
 </header>
@@ -266,24 +236,14 @@
         <h1>🌸 Ponto de Flor</h1>
 
         <p>
-            Acesse sua conta para acompanhar pedidos,
-            encomendas e informações da sua área.
+            Bem-vindo ao sistema da Ponto de Flor.
+            Utilize o menu abaixo para navegar pelo site.
         </p>
 
         <div class="menu-lateral">
-
-            {% url 'home' %}
-                🏠 Home
-            </a>
-
-            {% url 'cadastro' %}
-                📝 Cadastro
-            </a>
-
-            {% url 'login' %}
-                🔑 Login
-            </a>
-
+            <a href="{% url 'home' %}" class="menu-btn">Home</a>
+            <a href="{% url 'cadastro' %}" class="menu-btn">Cadastro</a>
+            <a href="{% url 'login' %}" class="menu-btn">Login</a>
         </div>
 
     </div>
@@ -309,40 +269,16 @@
             </div>
 
             {% if messages %}
-            {% for message in messages %}
-                <div class="mensagem">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        
-        {% url 'login' %}
-        
-            {% csrf_token %}
-        
-            <label>E-mail</label>
-        
-            <input
-                type="email"
-                name="email"
-                placeholder="Digite seu e-mail"
-                required
-            >
-        
-            <label>Senha</label>
-        
-            <input
-                type="password"
-                name="senha"
-                placeholder="Digite sua senha"
-                required
-            >
-        
-            <button type="submit">
-                Entrar
-            </button>
-        
-        </form>
+                {% for message in messages %}
+                    <div class="mensagem">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+
+                {% csrf_token %}
 
                 <label>E-mail</label>
 
@@ -372,7 +308,7 @@
 
                 Não possui uma conta?
 
-                {% url 'cadastro' %}
+                <a href="{% url 'cadastro' %}">
                     Criar Conta
                 </a>
 
@@ -399,5 +335,4 @@
 </footer>
 
 </body>
-
 </html>

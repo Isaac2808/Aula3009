@@ -1,6 +1,14 @@
 from django.shortcuts import render
+from carrinho.models import Produto
 
 def home(request):
-    return render(request, 'app/index.html')
 
+    produtos = Produto.objects.all()
 
+    return render(
+        request,
+        'app/index.html',
+        {
+            'produtos': produtos
+        }
+    )
