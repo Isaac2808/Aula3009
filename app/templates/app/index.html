@@ -37,14 +37,19 @@
         .card h3 { color:#d48b9b; margin-bottom:10px; }
         .card p { color:#666; line-height:1.6; }
         .preco-produto { margin-top:15px; margin-bottom:15px; font-size:22px; font-weight:bold; color:#d48b9b !important; }
-        .btn-carrinho { display:block; width:100%; text-align:center; text-decoration:none; background:#d48b9b; color:white !important; padding:12px; border-radius:12px; font-weight:bold; transition:.3s; }
+        
+        .btn-carrinho { display:block; width:100%; border:none; text-align:center; cursor:pointer; background:#d48b9b; color:white !important; padding:12px; border-radius:12px; font-weight:bold; font-size:15px; transition:.3s; }
         .btn-carrinho:hover { background:#c87a8c; transform:translateY(-2px); }
+        .btn-carrinho.adicionado { background:#4caf50; }
+
         footer { background:white; text-align:center; padding:25px; border-top:1px solid #eee; }
         footer h3 { color:#d48b9b; margin-bottom:10px; }
         footer p { color:#666; }
     </style>
 </head>
 <body>
+
+{% csrf_token %}
 
 <header>
     <div class="logo-topo">🌸 Ponto de Flor</div>
@@ -53,7 +58,7 @@
         <a href="{% url 'cadastro' %}">Cadastro</a>
         <a href="{% url 'login' %}">Login</a>
         <a href="{% url 'ver_carrinho' %}" class="carrinho-topo">
-            🛒 Carrinho ({{ carrinho_total }})
+            🛒 Carrinho (<span class="qtd-carrinho-contador">{{ carrinho_total }}</span>)
         </a>
     </div>
 </header>
@@ -66,7 +71,7 @@
             <a href="{% url 'home' %}" class="menu-btn">Home</a>
             <a href="{% url 'cadastro' %}" class="menu-btn">Cadastro</a>
             <a href="{% url 'login' %}" class="menu-btn">Login</a>
-            <a href="{% url 'ver_carrinho' %}" class="menu-btn">🛒 Carrinho ({{ carrinho_total }})</a>
+            <a href="{% url 'ver_carrinho' %}" class="menu-btn">🛒 Carrinho (<span class="qtd-carrinho-contador">{{ carrinho_total }}</span>)</a>
         </div>
     </div>
 
@@ -88,12 +93,14 @@
                     {% if produto.imagem %}
                         <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="produto-img">
                     {% else %}
-                        <div class="produto-img">🌸</div>
+                        <div class="produto-img" style="display:flex; align-items:center; justify-content:center; font-size:50px;">🌸</div>
                     {% endif %}
                     <h3>{{ produto.nome }}</h3>
                     <p>{{ produto.descricao }}</p>
                     <p class="preco-produto">R$ {{ produto.preco }}</p>
-                    <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-carrinho">🛒 Adicionar ao Carrinho</a>
+                    <button type="button" class="btn-carrinho btn-adicionar-ajax" data-produto-id="{{ produto.id }}">
+                        🛒 Adicionar ao Carrinho
+                    </button>
                 </div>
                 {% empty %}
                 <div class="card">
@@ -111,6 +118,63 @@
     <p>Feito com amor, costurado para você.</p>
     <p style="margin-top:10px;">© 2026 Ponto de Flor - Todos os direitos reservados.</p>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        document.querySelectorAll('.btn-adicionar-ajax').forEach(botao => {
+            botao.addEventListener('click', function() {
+                const produtoId = this.dataset.produtoId;
+                const urlAdicionar = `/carrinho/adicionar/${produtoId}/`;
+
+                fetch(urlAdicionar, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Atualiza o contador de itens nos dois menus
+                    document.querySelectorAll('.qtd-carrinho-contador').forEach(el => {
+                        el.innerText = data.carrinho_total;
+                    });
+
+                    // Feedback visual no botão
+                    const textoOriginal = this.innerText;
+                    this.innerText = '✔ Adicionado!';
+                    this.classList.add('adicionado');
+
+                    setTimeout(() => {
+                        this.innerText = textoOriginal;
+                        this.classList.remove('adicionado');
+                    }, 1500);
+                })
+                .catch(error => {
+                    console.error('Erro ao adicionar produto:', error);
+                });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

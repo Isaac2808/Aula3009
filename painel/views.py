@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
+from django.contrib.auth.models import User as Usuario, Group
 from login.utils import verificar_grupo
-
-from django.contrib.auth.models import User as Usuario
 
 
 @login_required(login_url='login')
@@ -42,11 +42,52 @@ def view_gerencia(request):
     return render(request, 'painel/gerencia.html')
 
 
+# 🌸 Supervisão & Gestão de Usuários
 @login_required
 def view_supervisao(request):
     if not verificar_grupo(request.user, 'supervisao'):
         raise PermissionDenied
-    return render(request, 'painel/supervisao.html')
+
+    context = {
+        'usuarios': Usuario.objects.all().order_by('username'),
+        'grupos': Group.objects.all()
+    }
+    return render(request, 'painel/supervisao.html', context)
+
+
+@login_required
+def editar_usuario_grupo(request, user_id):
+    if not verificar_grupo(request.user, 'supervisao'):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        usuario = get_object_or_404(Usuario, id=user_id)
+        grupo_id = request.POST.get('grupo_id')
+
+        usuario.groups.clear()
+        if grupo_id:
+            grupo = get_object_or_404(Group, id=grupo_id)
+            usuario.groups.add(grupo)
+
+        messages.success(request, f"Perfil do usuário {usuario.username} atualizado com sucesso!")
+
+    return redirect('view_supervisao')
+
+
+@login_required
+def excluir_usuario(request, user_id):
+    if not verificar_grupo(request.user, 'supervisao'):
+        raise PermissionDenied
+
+    usuario = get_object_or_404(Usuario, id=user_id)
+
+    if usuario == request.user:
+        messages.error(request, "Você não pode excluir seu próprio usuário!")
+        return redirect('view_supervisao')
+
+    usuario.delete()
+    messages.success(request, "Usuário excluído com sucesso!")
+    return redirect('view_supervisao')
 
 
 @login_required

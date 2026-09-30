@@ -31,7 +31,7 @@ urlpatterns = [
     path('carrinho/checkout/', carrinho_view.checkout_view, name='checkout'),
     path('carrinho/finalizar/', carrinho_view.finalizar_compra_view, name='finalizar_compra'),
     path('carrinho/adicionar/<int:produto_id>/', carrinho_view.adicionar_carrinho, name='adicionar_carrinho'),
-    path('carrinho/atualizar/', carrinho_view.atualizar_carrinho, name='atualizar_carrinho'),  # 🔄 nova rota
+    path('carrinho/atualizar/', carrinho_view.atualizar_carrinho, name='atualizar_carrinho'),
     path('carrinho/historico/', carrinho_view.historico_pedidos, name='historico_pedidos'),
 
     # Cadastro de Produto
@@ -48,7 +48,12 @@ urlpatterns = [
     path('painel/diretoria/', painel_views.view_diretoria, name='view_diretoria'),
     path('painel/gerencia-geral/', painel_views.view_gerencia_geral, name='view_gerencia_geral'),
     path('painel/gerencia/', painel_views.view_gerencia, name='view_gerencia'),
+    
+    # Supervisão & Gestão de Usuários
     path('painel/supervisao/', painel_views.view_supervisao, name='view_supervisao'),
+    path('painel/supervisao/usuario/editar/<int:user_id>/', painel_views.editar_usuario_grupo, name='editar_usuario_grupo'),
+    path('painel/supervisao/usuario/excluir/<int:user_id>/', painel_views.excluir_usuario, name='excluir_usuario'),
+
     path('painel/atendente/', painel_views.view_atendente, name='view_atendente'),
     path('painel/caixa/', painel_views.view_caixa, name='view_caixa'),
 

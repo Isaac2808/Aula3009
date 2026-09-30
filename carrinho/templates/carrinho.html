@@ -1,126 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ponto de Flor | Carrinho</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto de Flor | Carrinho de Compras</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
-body{background:#fff8f8;}
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
+        body { background:#fff8f8; }
+        header { background:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.08); }
+        .logo-topo { font-size:32px; font-weight:bold; color:#d48b9b; }
+        .menu-topo { display:flex; gap:25px; align-items:center; }
+        .menu-topo a { text-decoration:none; color:#666; font-weight:bold; transition:.3s; }
+        .menu-topo a:hover { color:#d48b9b; }
+        .carrinho-topo { background:#d48b9b; color:white; padding:8px 15px; border-radius:12px; font-weight:bold; text-decoration:none; }
+        .carrinho-topo:hover { background:#c87a8c; }
+        
+        .pagina { display:flex; min-height:calc(100vh - 150px); }
+        .lateral { width:320px; background:linear-gradient(135deg,#d48b9b,#e6a4b4); color:white; padding:40px; }
+        .lateral h1 { font-size:45px; margin-bottom:15px; }
+        .lateral p { margin-bottom:30px; line-height:1.7; }
+        .menu-lateral { display:flex; flex-direction:column; gap:15px; }
+        .menu-btn { background:white; color:#d48b9b; text-decoration:none; padding:15px; border-radius:12px; text-align:center; font-weight:bold; transition:.3s; }
+        .menu-btn:hover { background:#fff0f3; transform:translateY(-2px); }
+        
+        .conteudo { flex:1; padding:50px; }
+        
+        /* Container Tabela de Carrinho */
+        .painel-carrinho { background:white; padding:40px; border-radius:25px; box-shadow:0 10px 25px rgba(0,0,0,.08); }
+        .painel-carrinho h1 { color:#d48b9b; font-size:36px; margin-bottom:25px; }
+        
+        .tabela-carrinho { width:100%; border-collapse:collapse; margin-bottom:30px; }
+        .tabela-carrinho th { background:#fff0f3; color:#d48b9b; padding:15px; text-align:left; font-size:16px; border-radius:8px; }
+        .tabela-carrinho td { padding:15px; border-bottom:1px solid #eee; vertical-align:middle; color:#666; }
+        .produto-img { width:60px; height:60px; object-fit:cover; border-radius:10px; }
+        
+        .input-qtd { width:65px; padding:8px; border:1px solid #d48b9b; border-radius:8px; text-align:center; font-weight:bold; color:#d48b9b; font-size:16px; }
+        .input-qtd:focus { outline:none; box-shadow:0 0 0 2px rgba(212,139,155,0.3); }
 
-header{background:white;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);}
-.logo{font-size:30px;font-weight:bold;color:#d48b9b;}
+        .subtotal-texto { font-weight:bold; color:#d48b9b; }
 
-.pagina{display:flex;min-height:calc(100vh - 80px);}
-.sidebar{width:300px;background:linear-gradient(135deg,#d48b9b,#e6a4b4);color:white;padding:30px;}
-.sidebar h2{margin-bottom:15px;}
-.sidebar p{margin-bottom:25px;line-height:1.6;}
-.menu{display:flex;flex-direction:column;gap:15px;}
-.menu a{background:white;color:#d48b9b;text-decoration:none;padding:15px;border-radius:12px;text-align:center;font-weight:bold;}
-.menu a:hover{background:#fff0f3;}
+        .resumo-carrinho { display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:20px; border-top:2px dashed #eee; }
+        .total-container { font-size:24px; font-weight:bold; color:#d48b9b; }
 
-.conteudo{flex:1;padding:40px;}
-.titulo{color:#d48b9b;margin-bottom:25px;}
+        .botoes-carrinho { display:flex; gap:15px; }
+        .btn { display:inline-block; background:#d48b9b; color:white !important; text-decoration:none; padding:12px 25px; border-radius:12px; font-weight:bold; transition:.3s; border:none; cursor:pointer; }
+        .btn:hover { background:#c87a8c; transform:translateY(-2px); }
+        .btn-secundario { background:#e0e0e0; color:#666 !important; }
+        .btn-secundario:hover { background:#d0d0d0; }
 
-.carrinho{background:white;border-radius:20px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,.08);}
-table{width:100%;border-collapse:collapse;}
-th{background:#d48b9b;color:white;padding:15px;}
-td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
+        .carrinho-vazio { text-align:center; padding:50px 0; color:#666; }
+        .carrinho-vazio h2 { color:#d48b9b; margin-bottom:10px; font-size:28px; }
 
-.produto-img{width:70px;height:70px;object-fit:cover;border-radius:10px;}
-input.qtd-input{width:60px;text-align:center;padding:6px;border:1px solid #ddd;border-radius:8px;}
-
-.total{margin-top:25px;text-align:right;font-size:24px;font-weight:bold;color:#d48b9b;}
-.acoes{margin-top:25px;display:flex;justify-content:flex-end;gap:15px;flex-wrap:wrap;}
-.btn{text-decoration:none;padding:14px 25px;border-radius:12px;font-weight:bold;}
-.continuar{background:#eeeeee;color:#555;}
-.finalizar{background:#d48b9b;color:white;}
-.finalizar:hover{background:#c77f8f;}
-
-.vazio{background:white;padding:40px;border-radius:20px;text-align:center;box-shadow:0 10px 20px rgba(0,0,0,.08);}
-footer{background:white;text-align:center;padding:20px;border-top:1px solid #eee;color:#666;}
-</style>
+        footer { background:white; text-align:center; padding:25px; border-top:1px solid #eee; }
+        footer h3 { color:#d48b9b; margin-bottom:10px; }
+        footer p { color:#666; }
+    </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">🌸 Ponto de Flor</div>
+    <div class="logo-topo">🌸 Ponto de Flor</div>
+    <div class="menu-topo">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'cadastro' %}">Cadastro</a>
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'ver_carrinho' %}" class="carrinho-topo">
+            🛒 Carrinho ({{ itens|length }})
+        </a>
+    </div>
 </header>
 
 <div class="pagina">
-    <div class="sidebar">
-        <h2>Meu Carrinho</h2>
-        <p>Revise seus produtos antes de finalizar o pedido.</p>
-        <div class="menu">
-            <a href="{% url 'home' %}">🏠 Home</a>
-            <a href="{% url 'cadastro' %}">📝 Cadastro</a>
-            <a href="{% url 'login' %}">🔑 Login</a>
+    <div class="lateral">
+        <h1>🌸 Ponto de Flor</h1>
+        <p>Bem-vindo ao sistema da Ponto de Flor. Utilize o menu abaixo para navegar pelo site.</p>
+        <div class="menu-lateral">
+            <a href="{% url 'home' %}" class="menu-btn">Home</a>
+            <a href="{% url 'cadastro' %}" class="menu-btn">Cadastro</a>
+            <a href="{% url 'login' %}" class="menu-btn">Login</a>
+            <a href="{% url 'ver_carrinho' %}" class="menu-btn">🛒 Carrinho ({{ itens|length }})</a>
         </div>
     </div>
 
     <div class="conteudo">
-        <h1 class="titulo">Carrinho de Compras</h1>
+        <div class="painel-carrinho">
+            <h1>Carrinho de Compras 🛒</h1>
 
-        {% if itens %}
-            <form method="POST" action="{% url 'atualizar_carrinho' %}">
+            {% if itens %}
                 {% csrf_token %}
-                <div class="carrinho">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Imagem</th>
-                                <th>Produto</th>
-                                <th>Quantidade</th>
-                                <th>Preço</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in itens %}
-                            <tr>
-                                <td>
-                                    {% if item.produto.imagem %}
-                                        <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" class="produto-img">
-                                    {% else %}
-                                        <span>Sem imagem</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ item.produto.nome }}</td>
-                                <td>
-                                    <input type="number" name="quantidade_{{ item.produto.id }}" value="{{ item.quantidade }}" min="1" class="qtd-input">
-                                </td>
-                                <td>R$ {{ item.produto.preco }}</td>
-                                <td>R$ {{ item.subtotal }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <table class="tabela-carrinho">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Un.</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens %}
+                        <tr>
+                            <td>
+                                {% if item.produto.imagem %}
+                                    <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" class="produto-img">
+                                {% else %}
+                                    <div class="produto-img" style="display:flex; align-items:center; justify-content:center; background:#fff0f3; color:#d48b9b;">🌸</div>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ item.produto.nome }}</strong></td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    class="input-qtd" 
+                                    data-produto-id="{{ item.produto.id }}" 
+                                    value="{{ item.quantidade }}" 
+                                    min="1"
+                                >
+                            </td>
+                            <td>R$ {{ item.produto.preco }}</td>
+                            <td class="subtotal-texto">R$ <span id="subtotal-{{ item.produto.id }}">{{ item.subtotal }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="resumo-carrinho">
+                    <div class="total-container">
+                        Total: R$ <span id="total-carrinho">{{ total }}</span>
+                    </div>
+                    <div class="botoes-carrinho">
+                        <a href="{% url 'home' %}" class="btn btn-secundario">Continuar Comprando</a>
+                        <a href="{% url 'checkout' %}" class="btn">Finalizar Pedido</a>
+                    </div>
                 </div>
 
-                <div class="total">
-                    Total: R$ {{ total }}
+            {% else %}
+                <div class="carrinho-vazio">
+                    <h2>🛒 Seu carrinho está vazio</h2>
+                    <p style="margin-bottom: 20px;">Adicione produtos para iniciar sua compra.</p>
+                    <a href="{% url 'home' %}" class="btn">Ver Produtos</a>
                 </div>
-
-                <div class="acoes">
-                    <a href="{% url 'home' %}" class="btn continuar">Continuar Comprando</a>
-                    <button type="submit" class="btn continuar">🔄 Atualizar Quantidades</button>
-                    <a href="{% url 'checkout' %}" class="btn finalizar">Finalizar Pedido</a>
-                </div>
-            </form>
-        {% else %}
-            <div class="vazio">
-                <h2>🛒 Seu carrinho está vazio</h2>
-                <br>
-                <p>Adicione produtos para iniciar sua compra.</p>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
 
 <footer>
-    © 2026 Ponto de Flor - Carrinho
+    <h3>🌸 Ponto de Flor</h3>
+    <p>Feito com amor, costurado para você.</p>
+    <p style="margin-top:10px;">© 2026 Ponto de Flor - Todos os direitos reservados.</p>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        document.querySelectorAll('.input-qtd').forEach(input => {
+            input.addEventListener('change', function() {
+                const produtoId = this.dataset.produtoId;
+                const novaQtd = parseInt(this.value);
+
+                if (novaQtd < 1 || isNaN(novaQtd)) return;
+
+                fetch("{% url 'atualizar_carrinho' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({
+                        produto_id: produtoId,
+                        quantidade: novaQtd
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sucesso) {
+                        document.getElementById(`subtotal-${produtoId}`).innerText = data.subtotal;
+                        document.getElementById('total-carrinho').innerText = data.total;
+                    }
+                })
+                .catch(error => console.error('Erro ao atualizar o carrinho:', error));
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ponto de Flor | Finalizar Pedido</title>
+<title>Ponto de Flor | Confirmação do Pedido</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
 body{background:#fff8f8;}
 
 header{background:white;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);}
-.logo{font-size:30px;font-weight:bold;color:#d48b9b;}
+.logo{font-size:30px;font-weight:bold;color:#d48b9b;text-decoration:none;}
 
 .container{max-width:1000px;margin:40px auto;padding:30px;background:white;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.08);}
 h1{color:#d48b9b;margin-bottom:25px;}
 
 table{width:100%;border-collapse:collapse;margin-bottom:25px;}
-th{background:#d48b9b;color:white;padding:15px;}
+th{background:#d48b9b;color:white;padding:15px;text-align:center;}
 td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
 .produto-img{width:70px;height:70px;object-fit:cover;border-radius:10px;}
 
@@ -26,29 +26,30 @@ td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
 .resumo h2{color:#d48b9b;margin-bottom:15px;}
 .resumo p{margin-bottom:8px;color:#555;}
 
-.btn{padding:14px 25px;border-radius:12px;font-weight:bold;text-decoration:none;cursor:pointer;}
+.btn{padding:14px 25px;border-radius:12px;font-weight:bold;text-decoration:none;cursor:pointer;border:none;font-size:16px;}
 .btn-confirmar{background:#d48b9b;color:white;}
 .btn-confirmar:hover{background:#c77f8f;}
 .btn-voltar{background:#eeeeee;color:#555;}
+.btn-voltar:hover{background:#e0e0e0;}
 </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">🌸 Ponto de Flor</div>
+    <a href="{% url 'home' %}" class="logo">🌸 Ponto de Flor</a>
 </header>
 
 <div class="container">
-    <h1>Finalizar Pedido</h1>
+    <h1>Revisar e Finalizar Pedido</h1>
 
-    <!-- Lista de itens -->
+    <!-- Lista de itens do pedido -->
     <table>
         <thead>
             <tr>
                 <th>Imagem</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
-                <th>Preço</th>
+                <th>Preço Unitário</th>
                 <th>Subtotal</th>
             </tr>
         </thead>
@@ -59,10 +60,10 @@ td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
                     {% if item.produto.imagem %}
                         <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" class="produto-img">
                     {% else %}
-                        <span>Sem imagem</span>
+                        <span>🌸</span>
                     {% endif %}
                 </td>
-                <td>{{ item.produto.nome }}</td>
+                <td><strong>{{ item.produto.nome }}</strong></td>
                 <td>{{ item.quantidade }}</td>
                 <td>R$ {{ item.produto.preco }}</td>
                 <td>R$ {{ item.subtotal }}</td>
@@ -72,22 +73,31 @@ td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
     </table>
 
     <div class="total">
-        Total: R$ {{ total }}
+        Total do Pedido: R$ {{ total }}
     </div>
 
-    <!-- Resumo da compra -->
-    <div class="resumo">
-        <h2>Resumo da Compra</h2>
-        <p><strong>Endereço de Entrega:</strong> {{ checkout.endereco }}</p>
-        <p><strong>Forma de Pagamento:</strong> {{ checkout.pagamento }}</p>
-    </div>
+    <!-- Confirmação dos dados fornecidos -->
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding:15px; background:#ffe6ea; color:#b45d6a; border-radius:10px; margin-top:20px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
-    <!-- ✅ Formulário para confirmar pedido -->
-    <form method="POST">
+    <!-- Formulário Final do Pedido -->
+    <form method="POST" action="{% url 'finalizar_compra' %}">
         {% csrf_token %}
-        <div style="display:flex;justify-content:flex-end;gap:15px;margin-top:20px;">
-            <a href="{% url 'checkout' %}" class="btn btn-voltar">Voltar ao Checkout</a>
-            <button type="submit" class="btn btn-confirmar">✅ Confirmar Pedido</button>
+        
+        <div class="resumo">
+            <h2>Dados da Entrega</h2>
+            <p><strong>Cliente:</strong> {{ request.user.get_full_name|default:request.user.username }}</p>
+            <p><strong>E-mail:</strong> {{ request.user.email }}</p>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:15px;margin-top:25px;">
+            <a href="{% url 'checkout' %}" class="btn btn-voltar">Voltar</a>
+            <button type="submit" class="btn btn-confirmar">✅ Confirmar e Concluir Pedido</button>
         </div>
     </form>
 </div>

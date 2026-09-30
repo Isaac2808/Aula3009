@@ -1,95 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ponto de Flor | Finalizar Pedido</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto de Flor | Checkout</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
+        body { background:#fff8f8; }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
-body{background:#fff8f8;}
+        header { background:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.08); }
+        .logo { font-size:30px; font-weight:bold; color:#d48b9b; text-decoration:none; }
 
-header{background:white;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);}
-.logo{font-size:30px;font-weight:bold;color:#d48b9b;}
+        .container { max-width:650px; margin:40px auto; padding:35px; background:white; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,.08); text-align:center; }
+        h1 { color:#d48b9b; margin-bottom:15px; }
+        p { color:#666; margin-bottom:25px; line-height:1.6; }
 
-.container{max-width:1000px;margin:40px auto;padding:30px;background:white;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.08);}
-h1{color:#d48b9b;margin-bottom:25px;}
+        .mensagem { padding:12px; background:#ffe6ea; color:#b45d6a; border-radius:10px; margin-bottom:20px; text-align:center; }
 
-table{width:100%;border-collapse:collapse;margin-bottom:25px;}
-th{background:#d48b9b;color:white;padding:15px;}
-td{padding:15px;border-bottom:1px solid #eee;text-align:center;}
-.produto-img{width:70px;height:70px;object-fit:cover;border-radius:10px;}
+        .form-group { text-align:left; margin-bottom:20px; }
+        label { display:block; margin-bottom:8px; font-weight:bold; color:#555; }
+        input, select { width:100%; padding:14px; border:1px solid #ebc5ce; border-radius:12px; font-size:15px; }
+        input:focus, select:focus { outline:none; border-color:#d48b9b; }
 
-.total{margin-top:15px;text-align:right;font-size:22px;font-weight:bold;color:#d48b9b;}
-
-.resumo{margin-top:25px;padding:20px;background:#fff8f8;border:1px solid #eee;border-radius:12px;}
-.resumo h2{color:#d48b9b;margin-bottom:15px;}
-.resumo p{margin-bottom:8px;color:#555;}
-
-.btn{padding:14px 25px;border-radius:12px;font-weight:bold;text-decoration:none;cursor:pointer;}
-.btn-confirmar{background:#d48b9b;color:white;}
-.btn-confirmar:hover{background:#c77f8f;}
-.btn-voltar{background:#eeeeee;color:#555;}
-</style>
+        .botoes { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-top:25px; }
+        .btn { padding:14px 25px; border-radius:12px; font-weight:bold; text-decoration:none; cursor:pointer; border:none; font-size:16px; }
+        .btn-principal { background:#d48b9b; color:white; }
+        .btn-principal:hover { background:#c77f8f; }
+        .btn-secundario { background:#eeeeee; color:#555; }
+        .btn-secundario:hover { background:#e0e0e0; }
+    </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">🌸 Ponto de Flor</div>
+    <a href="{% url 'home' %}" class="logo">🌸 Ponto de Flor</a>
 </header>
 
 <div class="container">
-    <h1>Finalizar Pedido</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mensagem">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
-    <!-- Lista de itens -->
-    <table>
-        <thead>
-            <tr>
-                <th>Imagem</th>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Preço</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in itens %}
-            <tr>
-                <td>
-                    {% if item.produto.imagem %}
-                        <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" class="produto-img">
-                    {% else %}
-                        <span>Sem imagem</span>
-                    {% endif %}
-                </td>
-                <td>{{ item.produto.nome }}</td>
-                <td>{{ item.quantidade }}</td>
-                <td>R$ {{ item.produto.preco }}</td>
-                <td>R$ {{ item.subtotal }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="total">
-        Total: R$ {{ total }}
-    </div>
-
-    <!-- Resumo da compra -->
-    <div class="resumo">
-        <h2>Resumo da Compra</h2>
-        <p><strong>Endereço de Entrega:</strong> {{ checkout.endereco }}</p>
-        <p><strong>Forma de Pagamento:</strong> {{ checkout.pagamento }}</p>
-    </div>
-
-    <!-- ✅ Formulário corrigido -->
-    <form method="POST" action="{% url 'finalizar_compra' %}">
-        {% csrf_token %}
-        <div style="display:flex;justify-content:flex-end;gap:15px;margin-top:20px;">
-            <a href="{% url 'checkout' %}" class="btn btn-voltar">Voltar ao Checkout</a>
-            <button type="submit" class="btn btn-confirmar">✅ Confirmar Pedido</button>
+    {% if not user.is_authenticated %}
+        <!-- CASO 1: Usuário NÃO Logado -->
+        <h1>Identifique-se para Continuar 🌸</h1>
+        <p>Para concluir sua compra, por favor faça login na sua conta ou crie um novo cadastro.</p>
+        
+        <div class="botoes">
+            <a href="{% url 'login' %}?next={% url 'checkout' %}" class="btn btn-principal">Fazer Login</a>
+            <a href="{% url 'cadastro' %}" class="btn btn-secundario">Criar Conta</a>
         </div>
-    </form>
+
+    {% else %}
+        <!-- CASO 2: Usuário LOGADO -->
+        <h1>Dados de Entrega e Pagamento</h1>
+        <p>Preencha onde deseja receber seu pedido e como prefere pagar:</p>
+
+        <form method="POST" action="{% url 'checkout' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="endereco">Endereço Completo de Entrega</label>
+                <input type="text" id="endereco" name="endereco" placeholder="Ex: Rua das Flores, 123 - Bairro, Cidade/UF" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pagamento">Forma de Pagamento</label>
+                <select id="pagamento" name="pagamento" required>
+                    <option value="" disabled selected>Selecione uma opção...</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Boleto Bancário">Boleto Bancário</option>
+                </select>
+            </div>
+
+            <div class="botoes">
+                <a href="{% url 'ver_carrinho' %}" class="btn btn-secundario">Voltar ao Carrinho</a>
+                <button type="submit" class="btn btn-principal">Revisar Pedido ➔</button>
+            </div>
+        </form>
+    {% endif %}
 </div>
 
 </body>

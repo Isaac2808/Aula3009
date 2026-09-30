@@ -109,7 +109,7 @@ def painel_redirect(request):
 
     if verificar_grupo(user, 'administradores'):
         return redirect('view_administrador')
-    if verificar_grupo(user, 'diretoria'):
+    elif verificar_grupo(user, 'diretoria'):
         return redirect('view_diretoria')
     elif verificar_grupo(user, 'gerencia_geral'):
         return redirect('view_gerencia_geral')
@@ -122,4 +122,6 @@ def painel_redirect(request):
     elif verificar_grupo(user, 'caixa'):
         return redirect('view_caixa')
 
-    raise PermissionDenied
+    # Em vez de interromper com erro 403 (PermissionDenied), 
+    # redireciona os clientes e novos usuários para a loja/Home
+    return redirect('home')
