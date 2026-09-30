@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ponto de Flor | Atendente</title>
 
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -46,13 +44,7 @@
 
         .sidebar{
             width:300px;
-
-            background:linear-gradient(
-                135deg,
-                #d48b9b,
-                #e6a4b4
-            );
-
+            background:linear-gradient(135deg,#d48b9b,#e6a4b4);
             color:white;
             padding:30px;
         }
@@ -176,161 +168,78 @@
         }
 
         @media(max-width:900px){
-
-            .pagina{
-                flex-direction:column;
-            }
-
-            .sidebar{
-                width:100%;
-            }
-
-            header{
-                flex-direction:column;
-                gap:15px;
-            }
-
+            .pagina{flex-direction:column;}
+            .sidebar{width:100%;}
+            header{flex-direction:column;gap:15px;}
         }
-
     </style>
-
 </head>
-
 <body>
 
 <header>
-
-    <div class="logo">
-        🌸 Ponto de Flor
-    </div>
-
-    <div class="usuario">
-        Atendente: {{ request.user.first_name }}
-    </div>
-
+    <div class="logo">🌸 Ponto de Flor</div>
+    <div class="usuario">Atendente: {{ request.user.first_name }}</div>
 </header>
 
 <div class="pagina">
 
     <div class="sidebar">
-
         <h2>Menu do Atendente</h2>
-
-        <p>
-            Área responsável pelo atendimento e acompanhamento dos clientes.
-        </p>
-
+        <p>Área responsável pelo atendimento e acompanhamento dos clientes.</p>
         <div class="menu">
-
-            {% url 'home' %}
-                🏠 Home
-            </a>
-
-            {% url 'logout' %}
-                🚪 Sair
-            </a>
-
+            <a href="{% url 'home' %}">🏠 Home</a>
+            <a href="{% url 'logout' %}">🚪 Sair</a>
         </div>
-
     </div>
 
     <div class="conteudo">
-
-        <h1 class="titulo">
-            Painel do Atendente
-        </h1>
+        <h1 class="titulo">Painel do Atendente</h1>
 
         <div class="cards">
-
             <div class="card">
                 <h3>👤 Clientes</h3>
-                <p>
-                    Consultar informações de clientes cadastrados.
-                </p>
+                <p>Consultar informações de clientes cadastrados.</p>
             </div>
-
             <div class="card">
                 <h3>📦 Pedidos</h3>
-                <p>
-                    Acompanhar pedidos em andamento.
-                </p>
+                <p>Acompanhar pedidos em andamento.</p>
             </div>
-
             <div class="card">
                 <h3>🧵 Encomendas</h3>
-                <p>
-                    Registrar novas encomendas e alterações.
-                </p>
+                <p>Registrar novas encomendas e alterações.</p>
             </div>
-
         </div>
 
         <div class="acoes">
-
             <h2>Ações Disponíveis</h2>
-
             <div class="grid-acoes">
 
                 <div class="acao">
-
                     <h3>👥 Clientes</h3>
-
-                    <p>
-                        Consultar histórico e informações dos clientes.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
+                    <p>Consultar histórico e informações dos clientes.</p>
+                    <a href="#">Abrir</a>
                 </div>
 
                 <div class="acao">
-
                     <h3>📋 Pedidos</h3>
-
-                    <p>
-                        Visualizar pedidos e atualizações.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
+                    <p>Visualizar pedidos e atualizações.</p>
+                    <a href="#">Abrir</a>
                 </div>
 
                 <div class="acao">
-
                     <h3>📞 Atendimento</h3>
-
-                    <p>
-                        Registrar atendimentos realizados.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
+                    <p>Registrar atendimentos realizados.</p>
+                    <a href="#">Abrir</a>
                 </div>
 
                 <div class="acao">
-
                     <h3>🧾 Orçamentos</h3>
-
-                    <p>
-                        Emitir e consultar orçamentos.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
+                    <p>Emitir e consultar orçamentos.</p>
+                    <a href="#">Abrir</a>
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
 </div>
@@ -340,5 +249,4 @@
 </footer>
 
 </body>
-
 </html>

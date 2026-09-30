@@ -55,11 +55,7 @@
 
         .lateral {
             width: 320px;
-            background: linear-gradient(
-                135deg,
-                #d48b9b,
-                #e6a4b4
-            );
+            background: linear-gradient(135deg,#d48b9b,#e6a4b4);
             color: white;
             padding: 40px;
         }
@@ -216,122 +212,66 @@
 <body>
 
 <header>
-
-    <div class="logo-topo">
-        🌸 Ponto de Flor
-    </div>
-
+    <div class="logo-topo">🌸 Ponto de Flor</div>
     <div class="menu-topo">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'cadastro' %}">Cadastro</a>
         <a href="{% url 'login' %}">Login</a>
     </div>
-
 </header>
 
 <div class="pagina">
 
     <div class="lateral">
-
         <h1>🌸 Ponto de Flor</h1>
-
-        <p>
-            Bem-vindo ao sistema da Ponto de Flor.
-            Utilize o menu abaixo para navegar pelo site.
-        </p>
-
+        <p>Bem-vindo ao sistema da Ponto de Flor. Utilize o menu abaixo para navegar pelo site.</p>
         <div class="menu-lateral">
             <a href="{% url 'home' %}" class="menu-btn">Home</a>
             <a href="{% url 'cadastro' %}" class="menu-btn">Cadastro</a>
             <a href="{% url 'login' %}" class="menu-btn">Login</a>
         </div>
-
     </div>
 
     <div class="formulario">
-
         <div class="container">
-
             <div class="logo">
-
                 <div class="icone">🔐</div>
-
                 <h2>Entrar na sua Conta</h2>
-
-                <p>
-                    Utilize seu e-mail e senha para continuar
-                </p>
-
+                <p>Utilize seu e-mail e senha para continuar</p>
             </div>
 
-            <div class="seguranca">
-                Faça seu login para acessar o sistema.
-            </div>
+            <div class="seguranca">Faça seu login para acessar o sistema.</div>
 
             {% if messages %}
                 {% for message in messages %}
-                    <div class="mensagem">
-                        {{ message }}
-                    </div>
+                    <div class="mensagem">{{ message }}</div>
                 {% endfor %}
             {% endif %}
 
             <form method="POST">
-
                 {% csrf_token %}
-
                 <label>E-mail</label>
-
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Digite seu e-mail"
-                    required
-                >
+                <input type="email" name="email" placeholder="Digite seu e-mail" required>
 
                 <label>Senha</label>
+                <input type="password" name="senha" placeholder="Digite sua senha" required>
 
-                <input
-                    type="password"
-                    name="senha"
-                    placeholder="Digite sua senha"
-                    required
-                >
-
-                <button type="submit">
-                    Entrar
-                </button>
-
+                <button type="submit">Entrar</button>
             </form>
 
             <div class="cadastro-link">
-
                 Não possui uma conta?
-
-                <a href="{% url 'cadastro' %}">
-                    Criar Conta
-                </a>
-
+                <a href="{% url 'cadastro' %}">Criar Conta</a>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
 <footer>
-
     <h3>🌸 Ponto de Flor</h3>
-
-    <p>
-        Feito com amor, costurado para você.
-    </p>
-
-    <p style="margin-top:10px;">
-        © 2026 Ponto de Flor. Todos os direitos reservados.
-    </p>
-
+    <p>Feito com amor, costurado para você.</p>
+    <p style="margin-top:10px;">© 2026 Ponto de Flor. Todos os direitos reservados.</p>
 </footer>
 
 </body>

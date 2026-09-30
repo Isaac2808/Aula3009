@@ -211,123 +211,65 @@
 <div class="pagina">
 
     <div class="sidebar">
+    <h2>Menu do Caixa</h2>
+    <p>Área responsável pelos pagamentos, recebimentos e controle financeiro diário.</p>
+    <div class="menu">
+        <a href="{% url 'home' %}">🏠 Home</a>
+        <a href="{% url 'logout' %}">🚪 Sair</a>
+    </div>
+</div>
 
-        <h2>Menu do Caixa</h2>
+<div class="conteudo">
+    <h1 class="titulo">Painel do Caixa</h1>
 
-        <p>
-            Área responsável pelos pagamentos, recebimentos e controle financeiro diário.
-        </p>
+    <div class="cards">
+        <div class="card">
+            <h3>💰 Recebimentos</h3>
+            <p>Registrar pagamentos recebidos dos clientes.</p>
+        </div>
+        <div class="card">
+            <h3>🧾 Comprovantes</h3>
+            <p>Emitir e consultar comprovantes de pagamento.</p>
+        </div>
+        <div class="card">
+            <h3>📊 Fechamento</h3>
+            <p>Acompanhar o fechamento diário do caixa.</p>
+        </div>
+    </div>
 
-        <div class="menu">
+   <div class="acoes">
+    <h2>Operações Financeiras</h2>
+    <div class="grid-acoes">
 
-            {% url 'home' %}
-                🏠 Home
-            </a>
+        <div class="acao">
+            <h3>💵 Novo Recebimento</h3>
+            <p>Registrar um novo pagamento no sistema.</p>
+            <a href="{% url 'registrar_recebimento' %}">Abrir</a>
+        </div>
 
-            {% url 'logout' %}
-                🚪 Sair
-            </a>
+        <div class="acao">
+            <h3>🧾 Comprovantes</h3>
+            <p>Consultar comprovantes emitidos.</p>
+            <a href="{% url 'consultar_comprovantes' %}">Abrir</a>
+        </div>
 
+        <div class="acao">
+            <h3>📦 Pedidos Pagos</h3>
+            <p>Visualizar pedidos com pagamento confirmado.</p>
+            <a href="{% url 'pedidos_pagos' %}">Abrir</a>
+        </div>
+
+        <div class="acao">
+            <h3>📊 Fechamento Diário</h3>
+            <p>Consultar movimentações financeiras do dia.</p>
+            <a href="{% url 'fechamento_diario' %}">Abrir</a>
         </div>
 
     </div>
+</div>
 
-    <div class="conteudo">
+</div>
 
-        <h1 class="titulo">
-            Painel do Caixa
-        </h1>
-
-        <div class="cards">
-
-            <div class="card">
-                <h3>💰 Recebimentos</h3>
-                <p>
-                    Registrar pagamentos recebidos dos clientes.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>🧾 Comprovantes</h3>
-                <p>
-                    Emitir e consultar comprovantes de pagamento.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>📊 Fechamento</h3>
-                <p>
-                    Acompanhar o fechamento diário do caixa.
-                </p>
-            </div>
-
-        </div>
-
-        <div class="acoes">
-
-            <h2>Operações Financeiras</h2>
-
-            <div class="grid-acoes">
-
-                <div class="acao">
-
-                    <h3>💵 Novo Recebimento</h3>
-
-                    <p>
-                        Registrar um novo pagamento no sistema.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
-                </div>
-
-                <div class="acao">
-
-                    <h3>🧾 Comprovantes</h3>
-
-                    <p>
-                        Consultar comprovantes emitidos.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
-                </div>
-
-                <div class="acao">
-
-                    <h3>📦 Pedidos Pagos</h3>
-
-                    <p>
-                        Visualizar pedidos com pagamento confirmado.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
-                </div>
-
-                <div class="acao">
-
-                    <h3>📊 Fechamento Diário</h3>
-
-                    <p>
-                        Consultar movimentações financeiras do dia.
-                    </p>
-
-                    #
-                        Abrir
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
 
     </div>
 
